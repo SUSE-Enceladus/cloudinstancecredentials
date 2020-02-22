@@ -1,5 +1,3 @@
-#! /usr/bin/python3
-
 # Copyright 2020 SUSE LLC
 #
 # This file is part of cloudinstancecredentials
@@ -17,22 +15,22 @@
 # You should have received a copy of the GNU General Public License along with
 # cloudinstancecredentials. If not, see <http://www.gnu.org/licenses/>.
 
-import logging
-from cloudinstancecredentials import (
-    azurecredentials,
-    nginx
-)
 
-# PROCESS
-log = logging.getLogger('http-basic-credentials')
-metadata = None
-if azurecredentials.detect_framework():
-    metadata = azurecredentials.AzureInstanceMetadata(log)
+class InstanceMetadata(object):
+    def __init__(self, logger):
+        self.log = logger
+        self.metadata = self._get_instance_metadata()
 
-if metadata:
-    username = metadata.username()
-    password = metadata.password()
-    nginx.NginxCredentialSetter(log, username, password).set_credentials()
-    log.info('Done.')
-else:
-    log.warning('No instance metadata. Process finished.')
+    def username(self):
+        """Abstract interface"""
+        raise Exception('Not implemented')
+
+    def password(self):
+        """Abstract interface"""
+        raise Exception('Not implemented')
+
+    # private methods
+
+    def _get_instance_metadata(self):
+        """Abstract interface"""
+        raise Exception('Not implemented')
