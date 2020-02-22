@@ -15,27 +15,23 @@
 # You should have received a copy of the GNU General Public License along with
 # cloudinstancecredentials. If not, see <http://www.gnu.org/licenses/>.
 
-import ast
-from cloudinstancecredentials import utils
+import requests
 from cloudinstancecredentials.instancemetadata import InstanceMetadata
 
 
 def detect_framework():
     try:
-        curl_command = utils.command_run(
-            [
-                'curl',
-                '-s',
-                '-H',
-                'Metadata:true',
-                (
-                  'http://169.254.169.254'
-                  '/metadata/instance/compute/azEnvironment?'
-                  'api-version=2019-06-01&format=text'
-                )
-            ]
+        req = requests.get(
+            'http://169.254.169.254/metadata/instance/compute/azEnvironment',
+            params={
+                'api-version': '2019-06-01',
+                'format': 'text'
+            },
+            headers={
+                'Metadata': 'true'
+            }
         )
-        return (curl_command.returncode == 0)
+        return (req.status_code == 200)
     except Exception:
         return False
 
@@ -50,18 +46,16 @@ class AzureInstanceMetadata(InstanceMetadata):
     # private methods
 
     def _get_instance_metadata(self):
-        curl_command = utils.command_run(
-            [
-                'curl',
-                '-H',
-                'Metadata:true',
-                (
-                  'http://169.254.169.254/metadata/instance?'
-                  'api-version=2019-06-01'
-                )
-            ]
+        req = requests.get(
+            'http://169.254.169.254/metadata/instance',
+            params={
+                'api-version': '2019-06-01'
+            },
+            headers={
+                'Metadata': 'true'
+            }
         )
-        return ast.literal_eval(curl_command.output)
+        return req.json()
 
     def _get_instance_name(self):
         return self.metadata['compute']['name']
