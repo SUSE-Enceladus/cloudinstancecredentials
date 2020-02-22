@@ -33,4 +33,3 @@ test:
 
 install:
 	python3 setup.py install --prefix="$(PREFIX)" --root="$(DESTDIR)"
-	install -m 444 set-http-basic-credentials.service %{buildroot}%{_unitdir}

@@ -26,6 +26,7 @@ License:        GPL-3.0+
 Url:            https://github.com/SUSE-Enceladus/cloudinstancecredentials
 Source0:        %{upstream_name}-%{version}.tar.bz2
 Requires:       python3
+Requires:       python3-requests
 BuildRequires:  python3-setuptools
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
@@ -43,6 +44,8 @@ python3 setup.py build
 
 %install
 python3 setup.py install --prefix=%{_prefix} --root=%{buildroot}
+mkdir -p %{buildroot}%{_unitdir}
+install -m 444 set-http-basic-credentials.service %{buildroot}%{_unitdir}
 
 %files
 %defattr(-,root,root,-)
