@@ -1,6 +1,8 @@
 # cloudinstancecredentials
 
-Command line tools for setting authorization credentials based on metadata present in a public cloud VM instance.
+Generally in Public Cloud environments one does not want to have applications with a Web UI start automatically without a pre-populated user an password. This utility extracts information from a running instance and sets the web server for the web based UI up to use http-basicauth for login purposes.
+
+The implementation is modular such that it can easily be expanded to other cloud frameworks and web servers.
 
 ## Utilities
 
