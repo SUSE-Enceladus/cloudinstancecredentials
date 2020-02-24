@@ -27,7 +27,7 @@ Any vhost config using this authorization should include the following config:
 server {
     ...
     auth_basic	         'Authorization required';
-    auth_basic_user_file /etc/nginx/.htpasswd;
+    auth_basic_user_file /etc/nginx/cloudinstancecredentials;
     ...
 }
 ```
