@@ -10,7 +10,7 @@ Sets credentials for http-basic authorization in NGINX web servers.
 
 #### Usage
 
-On a supported[*]() public cloud VM instance:
+On a supported[*](lib/cloudinstancecredentials/) public cloud VM instance:
 ```
 sudo set-http-basic-credentials
 ```
