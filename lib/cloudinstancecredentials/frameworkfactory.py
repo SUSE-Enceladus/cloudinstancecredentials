@@ -1,5 +1,3 @@
-#! /usr/bin/python3
-
 # Copyright 2020 SUSE LLC
 #
 # This file is part of cloudinstancecredentials
@@ -17,20 +15,13 @@
 # You should have received a copy of the GNU General Public License along with
 # cloudinstancecredentials. If not, see <http://www.gnu.org/licenses/>.
 
-import logging
 from cloudinstancecredentials import (
-    frameworkfactory,
-    nginx
+    azurecredentials
 )
 
-# PROCESS
-log = logging.getLogger('http-basic-credentials')
-metadata = frameworkfactory.get_metadata(log)
 
-if metadata:
-    username = metadata.username()
-    password = metadata.password()
-    nginx.NginxCredentialSetter(log, username, password).set_credentials()
-    log.info('Done.')
-else:
-    log.warning('No instance metadata. Process finished.')
+def get_metadata(logger):
+    if azurecredentials.has_metadata_access():
+        return azurecredentials.AzureInstanceMetadata(logger)
+    else:
+        return None

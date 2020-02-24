@@ -19,7 +19,7 @@ import requests
 from cloudinstancecredentials.instancemetadata import InstanceMetadata
 
 
-def detect_framework():
+def has_metadata_access():
     try:
         req = requests.get(
             'http://169.254.169.254/metadata/instance/compute/azEnvironment',
@@ -29,7 +29,8 @@ def detect_framework():
             },
             headers={
                 'Metadata': 'true'
-            }
+            },
+            timeout=1
         )
         return (req.status_code == 200)
     except Exception:
