@@ -27,15 +27,14 @@ class NginxCredentialSetter(CredentialSetter):
         self.log = logger
 
     def default_export_path(self):
-        # return '/etc/nginx/.htpasswd'
-        return '/tmp/.htpasswd'
+        return '/etc/nginx/cloudinstancecredentials'
 
     def set_credentials(self):
-        self._create_htpasswd()
+        self._create_htpasswd_file()
 
     # private methods
 
-    def _create_htpasswd(self):
+    def _create_htpasswd_file(self):
         # create user:passwd in .htpasswd file
         passwd_cmd = utils.command_run(
             ['openssl', 'passwd', '-apr1', self.password]
@@ -45,5 +44,5 @@ class NginxCredentialSetter(CredentialSetter):
                 '{0}:{1}'.format(self.username, passwd_cmd.output)
             )
         self.log.info(
-            '.htpasswd created in {}'.format(self.export_path)
+            'credentials set in {}'.format(self.export_path)
         )
