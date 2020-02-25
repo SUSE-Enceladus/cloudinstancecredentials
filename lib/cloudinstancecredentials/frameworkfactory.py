@@ -21,7 +21,7 @@ from cloudinstancecredentials import (
 
 
 def get_metadata(logger):
-    if azurecredentials.has_metadata_access():
+    try:
         return azurecredentials.AzureInstanceMetadata(logger)
-    else:
+    except Exception:
         return None

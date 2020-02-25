@@ -19,24 +19,6 @@ import requests
 from cloudinstancecredentials.instancemetadata import InstanceMetadata
 
 
-def has_metadata_access():
-    try:
-        req = requests.get(
-            'http://169.254.169.254/metadata/instance/compute/azEnvironment',
-            params={
-                'api-version': '2019-06-01',
-                'format': 'text'
-            },
-            headers={
-                'Metadata': 'true'
-            },
-            timeout=1
-        )
-        return (req.status_code == 200)
-    except Exception:
-        return False
-
-
 class AzureInstanceMetadata(InstanceMetadata):
     def username(self):
         return self._get_instance_name()
