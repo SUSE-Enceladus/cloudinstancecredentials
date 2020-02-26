@@ -44,6 +44,7 @@ python3 setup.py build
 
 %install
 python3 setup.py install --prefix=%{_prefix} --root=%{buildroot}
+mv %{_bindir}/set-http-basic-credentials %{_sbindir}
 mkdir -p %{buildroot}%{_unitdir}
 install -m 444 set-http-basic-credentials.service %{buildroot}%{_unitdir}
 
@@ -53,7 +54,7 @@ install -m 444 set-http-basic-credentials.service %{buildroot}%{_unitdir}
 %license LICENSE
 %dir %{python3_sitelib}/cloudinstancecredentials
 %{python3_sitelib}/*
-%{_bindir}/set-http-basic-credentials
+%{_sbindir}/set-http-basic-credentials
 %{_unitdir}/set-http-basic-credentials.service
 
 %changelog
