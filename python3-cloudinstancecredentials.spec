@@ -44,7 +44,8 @@ python3 setup.py build
 
 %install
 python3 setup.py install --prefix=%{_prefix} --root=%{buildroot}
-mv %{_bindir}/set-http-basic-credentials %{_sbindir}
+mkdir -p %{buildroot}%{_sbindir}
+mv %{buildroot}%{_bindir}/set-http-basic-credentials %{buildroot}%{_sbindir}/set-http-basic-credentials
 mkdir -p %{buildroot}%{_unitdir}
 install -m 444 set-http-basic-credentials.service %{buildroot}%{_unitdir}
 
