@@ -35,14 +35,23 @@ class Ec2InstanceMetadata(InstanceMetadata):
         """Retrive and cache the instance identity document (IID)"""
         meta = ec2metadata.EC2Metadata()
         meta.setAPIVersion('latest')
-        self.iid = json.loads(meta.get('document'))
+        return json.loads(meta.get('document'))
 
     def _get_instance_id(self):
         """The instance ID from the IID"""
-        return self.iid.get('instanceId')
+        instance_id = self.metadata.get('instanceId')
+        if instance_id:
+            return instance_id
+
+        self.log.error('No instance id in metadata')
+        raise KeyError('instanceId')
 
     def _get_account_id(self):
-        """The account ID of the owner of this instance, shown as 
+        """The account ID of the owner of this instance, shown as
            'Owner' in the UI"""
-        return self.iid.get('accountId')
-        
+        account_id = self.metadata.get('accountId')
+        if account_id:
+            return account_id
+
+        self.log.error('No key found in metadata')
+        raise KeyError('accountId')
