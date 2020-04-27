@@ -16,12 +16,17 @@
 # cloudinstancecredentials. If not, see <http://www.gnu.org/licenses/>.
 
 from cloudinstancecredentials import (
-    azurecredentials
+    azurecredentials,
+    ec2credentials
 )
 
 
 def get_metadata(logger):
     try:
         return azurecredentials.AzureInstanceMetadata(logger)
+    except Exception:
+        return None
+    try:
+        return ec2credentials.Ec2InstanceMetadata(logger)
     except Exception:
         return None
