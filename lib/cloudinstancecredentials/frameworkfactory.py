@@ -15,18 +15,28 @@
 # You should have received a copy of the GNU General Public License along with
 # cloudinstancecredentials. If not, see <http://www.gnu.org/licenses/>.
 
-from cloudinstancecredentials import (
-    azurecredentials,
-    ec2credentials
-)
+from importlib import import_module
+from cloudinstancecredentials.utils import command_run
 
 
 def get_metadata(logger):
+    frameworks = ['Azure', 'Ec2']
     try:
-        return azurecredentials.AzureInstanceMetadata(logger)
-    except Exception:
-        return None
-    try:
-        return ec2credentials.Ec2InstanceMetadata(logger)
-    except Exception:
-        return None
+        for framework in frameworks:
+            which_command = command_run(
+                ['rpm', '-q', 'python3-{}metadata'.format(framework.lower())],
+                raise_on_error=False
+            )
+
+            if (which_command.returncode == 0) and ('not installed' not
+                                                    in which_command.output):
+                framework_mod = import_module(
+                    '{}credentials'.format(framework.lower())
+                )
+                framework_class = getattr(
+                    framework_mod, '{}InstanceMetadata'.format(framework)
+                )
+                return framework_class(logger)
+        logger.warning('Framework not supported.')
+    except Exception as err:
+        logger.error('CloudInstanceCredentials failed: {}'.format(err))
