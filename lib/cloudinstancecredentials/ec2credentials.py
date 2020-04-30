@@ -31,10 +31,9 @@ class Ec2InstanceMetadata(InstanceMetadata):
 
     # private methods
 
-    def _get_instance_identity_doc(self):
+    def _get_instance_metadata(self):
         """Retrive and cache the instance identity document (IID)"""
-        meta = ec2metadata.EC2Metadata()
-        meta.setAPIVersion('latest')
+        meta = ec2metadata.EC2Metadata(api='latest')
         return json.loads(meta.get('document'))
 
     def _get_instance_id(self):

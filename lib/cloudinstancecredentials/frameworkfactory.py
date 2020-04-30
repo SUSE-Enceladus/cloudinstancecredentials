@@ -25,7 +25,7 @@ def get_metadata(logger):
     try:
         return azurecredentials.AzureInstanceMetadata(logger)
     except Exception:
-        return None
+        pass
     try:
         return ec2credentials.Ec2InstanceMetadata(logger)
     except Exception:
