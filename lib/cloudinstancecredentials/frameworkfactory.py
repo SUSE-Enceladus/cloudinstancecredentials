@@ -15,18 +15,17 @@
 # You should have received a copy of the GNU General Public License along with
 # cloudinstancecredentials. If not, see <http://www.gnu.org/licenses/>.
 
-from cloudinstancecredentials import (
-    azurecredentials,
-    ec2credentials
-)
-
 
 def get_metadata(logger):
     try:
+        from cloudinstancecredentials import azurecredentials
+
         return azurecredentials.AzureInstanceMetadata(logger)
     except Exception:
         pass
     try:
+        from cloudinstancecredentials import ec2credentials
+
         return ec2credentials.Ec2InstanceMetadata(logger)
     except Exception:
         return None
