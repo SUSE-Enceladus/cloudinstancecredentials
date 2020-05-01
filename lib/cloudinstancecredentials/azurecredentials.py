@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License along with
 # cloudinstancecredentials. If not, see <http://www.gnu.org/licenses/>.
 
-import requests
+from azuremetadata import azuremetadata
 from cloudinstancecredentials.instancemetadata import InstanceMetadata
 
 
@@ -29,19 +29,21 @@ class AzureInstanceMetadata(InstanceMetadata):
     # private methods
 
     def _get_instance_metadata(self):
-        req = requests.get(
-            'http://169.254.169.254/metadata/instance',
-            params={
-                'api-version': '2019-06-01'
-            },
-            headers={
-                'Metadata': 'true'
-            }
-        )
-        return req.json()
+        meta = azuremetadata.AzureMetadata(api_version='2019-08-15')
+        return meta.get_instance_data()
 
     def _get_instance_name(self):
-        return self.metadata['compute']['name']
+        instance_name = self.metadata.get('compute').get('name')
+        if instance_name:
+            return instance_name
+
+        self.log.error('No instance name in metadata')
+        raise KeyError('instanceName')
 
     def _get_subscription_id(self):
-        return self.metadata['compute']['subscriptionId']
+        subscription_id = self.metadata.get('compute').get('subscriptionId')
+        if subscription_id:
+            return subscription_id
+
+        self.log.error('No subscription ID in metadata')
+        raise KeyError('instanceName')
