@@ -28,4 +28,10 @@ def get_metadata(logger):
 
         return ec2credentials.Ec2InstanceMetadata(logger)
     except Exception:
+        pass
+    try:
+        from cloudinstancecredentials import gcecredentials
+
+        return gcecredentials.GceInstanceMetadata(logger)
+    except Exception:
         return None
