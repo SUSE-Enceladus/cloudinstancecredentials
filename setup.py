@@ -59,7 +59,8 @@ if __name__ == '__main__':
             '': 'lib',
         },
         scripts=[
-            'set-http-basic-credentials'
+            'set-http-basic-credentials',
+            'cloudinstancecredentials-config'
         ],
         classifiers=[
             'Development Status :: 4 - Beta',

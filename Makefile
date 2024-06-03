@@ -2,7 +2,7 @@ DESTDIR=
 PREFIX=/usr
 NAME=cloudinstancecredentials
 dirs = lib
-files = Makefile README.md LICENSE set-http-basic-credentials set-http-basic-credentials.service setup.py requirements-dev.txt requirements.txt
+files = Makefile README.md LICENSE set-http-basic-credentials set-http-basic-credentials.service setup.py requirements-dev.txt requirements.txt cloudinstancecredentials-config cloudinstancecredentials-config.service
 
 verSpec = $(shell rpm -q --specfile --qf '%{VERSION}' *.spec)
 verSrc = $(shell cat lib/cloudinstancecredentials/VERSION)

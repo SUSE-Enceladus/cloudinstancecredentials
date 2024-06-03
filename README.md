@@ -31,3 +31,19 @@ server {
     ...
 }
 ```
+
+### cloudinstancecredentials-config
+
+Writes a generic config file with generated username and password in clear text,
+for consumption by other scripts/processes.
+
+#### Usage
+
+On a supported[*](lib/cloudinstancecredentials/) public cloud VM instance:
+```
+sudo cloudinstancecredentials-config
+```
+Alternatively, enable the one-shot systemd service:
+```
+sudo systemctl enable cloudinstancecredentials-config.service
+```
