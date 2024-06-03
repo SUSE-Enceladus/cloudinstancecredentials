@@ -1,7 +1,7 @@
 #
 # spec file for package python3-cloudinstancecredentials
 #
-# Copyright (c) 2020 SUSE LLC
+# Copyright (c) 2024 SUSE LLC
 #
 # All modifications and additions to the file contributed by third parties
 # remain the property of their copyright owners, unless otherwise agreed
@@ -19,7 +19,7 @@
 %define upstream_name cloudinstancecredentials
 
 Name:           python3-cloudinstancecredentials
-Version:        0.2.0
+Version:        0.3.0
 Release:        0
 Summary:        authorization utilities for public cloud
 License:        GPL-3.0+
@@ -46,8 +46,10 @@ python3 setup.py build
 python3 setup.py install --prefix=%{_prefix} --root=%{buildroot}
 mkdir -p %{buildroot}%{_sbindir}
 mv %{buildroot}%{_bindir}/set-http-basic-credentials %{buildroot}%{_sbindir}/set-http-basic-credentials
+mv %{buildroot}%{_bindir}/cloudinstancecredentials-config %{buildroot}%{_sbindir}/cloudinstancecredentials-config
 mkdir -p %{buildroot}%{_unitdir}
 install -m 444 set-http-basic-credentials.service %{buildroot}%{_unitdir}
+install -m 444 cloudinstancecredentials-config.service %{buildroot}%{_unitdir}
 
 %files
 %defattr(-,root,root,-)
@@ -56,8 +58,8 @@ install -m 444 set-http-basic-credentials.service %{buildroot}%{_unitdir}
 %dir %{python3_sitelib}/cloudinstancecredentials
 %{python3_sitelib}/*
 %{_sbindir}/set-http-basic-credentials
+%{_sbindir}/cloudinstancecredentials-config
 %{_unitdir}/set-http-basic-credentials.service
+%{_unitdir}/cloudinstancecredentials-config.service
 
 %changelog
-
-
