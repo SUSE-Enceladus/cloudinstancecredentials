@@ -24,7 +24,7 @@ class ConfigCredentialSetter(CredentialSetter):
     def __init__(self, logger, username, password, export_path=None):
         self.username = username
         self.password = password
-        self.export_path = (export_path or self.default_export_path())
+        self.export_path = export_path or self.default_export_path()
         self.log = logger
 
     def default_export_path(self):
