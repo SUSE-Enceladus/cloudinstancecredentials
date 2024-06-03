@@ -19,7 +19,7 @@
 %define upstream_name cloudinstancecredentials
 
 Name:           python3-cloudinstancecredentials
-Version:        0.2.0
+Version:        0.3.0
 Release:        0
 Summary:        authorization utilities for public cloud
 License:        GPL-3.0+
